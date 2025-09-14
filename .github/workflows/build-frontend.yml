@@ -21,9 +21,9 @@ jobs:
 
     - name: Build
       run: |
+        sed -i 's/is_official_build = false/is_official_build = true/g' build_overrides/BUILDCONFIG.gn
         gclient sync
-        gn gen out/Default
-        autoninja -C out/Default
+        vpython3 third_party/node/node.py --output scripts/run_build.mjs
       working-directory: devtools-frontend
 
     - name: Display release
@@ -55,5 +55,3 @@ jobs:
           devtools-release.tar.gz
           devtools-release-slim.tar.gz
         body_path: ${{ github.workspace }}-CHANGELOG.txt
-
-
